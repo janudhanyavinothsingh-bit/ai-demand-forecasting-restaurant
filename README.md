@@ -1,145 +1,165 @@
 # 🍽️ AI-Powered Restaurant Demand Forecasting & Inventory Optimization
 
-## 📌 Project Overview
-This project builds an end-to-end **time-series machine learning system** to forecast daily restaurant demand.  
+## 🚀 Overview
 
-The goal is to help restaurants:
-- Reduce food waste 📉  
-- Optimize inventory 📦  
-- Improve operational efficiency ⚙️  
+An end-to-end **time-series machine learning system** that predicts daily restaurant demand to enable **data-driven inventory and operations planning**.
+
+This project transforms raw transactional data into **actionable forecasts**, helping businesses reduce waste, optimize stock, and improve profitability.
 
 ---
 
-## 🚀 Business Problem
-Restaurants often rely on intuition or static spreadsheets to plan inventory.
+## 💼 Business Problem
 
-This leads to:
-- ❌ Over-ordering → Food waste  
-- ❌ Under-ordering → Lost revenue  
+Restaurants operate with **perishable inventory and uncertain demand**.
 
-👉 This project solves it using **AI-driven demand forecasting**.
+Traditional approaches rely on:
 
----
+* Static spreadsheets
+* Gut-based decision making
 
-## 🎯 Objectives
-- Predict daily sales demand using historical data  
-- Capture trends, seasonality, and spikes  
-- Minimize prediction error (MAE, RMSE)  
-- Convert predictions into business insights  
+This results in:
+
+* ❌ Over-ordering → food waste & higher costs
+* ❌ Under-ordering → stockouts & lost revenue
 
 ---
 
-## 🧠 Key Features
+## 🎯 Solution
+
+This project builds a **machine learning forecasting pipeline** that:
+
+* Predicts daily demand using historical sales
+* Captures **trend, seasonality, and promotions**
+* Uses **advanced feature engineering + ensemble models**
+* Outputs actionable insights for inventory planning
+
+---
+
+## 🧠 Key Capabilities
 
 ### 🔹 Advanced Feature Engineering
-- Date-based features (day, month, weekend)
-- Lag features (7, 14, 30 days)
-- Rolling statistics (mean, std)
-- Trend analysis
 
-### 🔹 Multiple Machine Learning Models
-- Linear Regression (Baseline)
-- Random Forest
-- XGBoost (Primary Model)
-- Prophet (Time-series model)
+* 📅 Calendar features (day, month, weekend flags)
+* 🔁 Lag features (1, 7, 14, 28 days)
+* 📊 Rolling statistics (mean, std, min, max)
+* ⚡ Exponential Moving Averages (EMA)
+* 📈 Trend & momentum features
 
-### 🔹 Time-Series Techniques
-- Time-based train-test split
-- TimeSeries Cross Validation
-- Hyperparameter tuning
+---
+
+### 🔹 Machine Learning Models
+
+* Linear Regression (baseline)
+* Random Forest Regressor
+* XGBoost Regressor ⭐ (primary model)
+* Prophet (time-series baseline)
+
+---
+
+### 🔹 Time-Series Best Practices
+
+* ⏳ Time-based train/test split (no leakage)
+* 🔄 TimeSeries Cross Validation
+* ⚙️ Hyperparameter tuning
+* 📉 Evaluation using MAE & RMSE
+
+---
 
 ### 🔹 Model Explainability
-- Feature Importance
-- SHAP analysis
+
+* Feature importance analysis
+* Correlation analysis
+* SHAP (planned / optional)
 
 ---
 
 ## 🛠️ Tech Stack
-- Python 🐍
-- Pandas, NumPy
-- Scikit-learn
-- XGBoost
-- Matplotlib, Seaborn, Plotly
-- Prophet (optional)
+
+* **Python**
+* **Pandas, NumPy**
+* **Scikit-learn**
+* **XGBoost**
+* **Matplotlib, Seaborn, Plotly**
+* **Prophet**
 
 ---
 
 ## 📂 Project Structure
 
+```
 ai-demand-forecasting-restaurant/
 │
 ├── data/
 ├── notebooks/
-│ ├── 01_eda.ipynb
-│ ├── 02_feature_engineering.ipynb
-│ ├── 03_modeling.ipynb
-│ ├── 04_evaluation.ipynb
+│   ├── 01_eda.ipynb
+│   ├── 02_feature_engineering.ipynb
+│   ├── 03_modeling.ipynb
+│   ├── 04_evaluation.ipynb
 │
 ├── src/
 ├── models/
 ├── outputs/
-│ ├── plots/
-│ ├── predictions.csv
+│   ├── plots/
+│   ├── engineered_features.csv
+│   ├── predictions.csv
 │
 ├── requirements.txt
 ├── README.md
 ├── .gitignore
-
-
----
-
-## 📊 Workflow
-
-1. Data Cleaning & EDA  
-2. Feature Engineering  
-3. Model Training  
-4. Hyperparameter Tuning  
-5. Evaluation & Visualization  
-6. Business Insights  
+```
 
 ---
 
-## 📈 Model Evaluation
+## 🔄 Workflow
 
-| Model            | MAE | RMSE |
-|------------------|-----|------|
-| Linear Regression|     |      |
-| Random Forest    |     |      |
-| XGBoost          |     |      |
-
-👉 XGBoost performed best in capturing demand patterns.
-
----
-
-## 📉 Business Impact
-
-- 📉 Reduced over-ordering  
-- 📦 Improved inventory planning  
-- 💰 Increased revenue opportunities  
+1. 📊 Data Cleaning & Time-Series EDA
+2. 🧠 Feature Engineering (lag, rolling, EMA)
+3. 🤖 Model Training (LR, RF, XGBoost)
+4. ⚙️ Hyperparameter Tuning
+5. 📉 Evaluation (MAE, RMSE)
+6. 📈 Business Insights & Visualization
 
 ---
 
-## 🔥 Key Learnings
+## 📊 Model Performance
 
-- Time-series forecasting techniques  
-- Feature engineering for demand prediction  
-- Model comparison and tuning  
-- Translating ML output into business decisions  
+| Model             | MAE | RMSE |
+| ----------------- | --- | ---- |
+| Linear Regression |     |      |
+| Random Forest     |     |      |
+| XGBoost ⭐         |     |      |
 
----
-
-## 🚀 Future Improvements
-
-- Add real-time dashboard (Streamlit)
-- Integrate weather & holiday APIs
-- Deploy model for live predictions
+👉 XGBoost outperformed others by capturing **non-linear demand patterns and seasonality**.
 
 ---
 
-## 👩‍💻 Author
+## 📈 Key Insights
 
+* 📅 Strong weekly seasonality (weekend spikes)
+* 📈 Upward sales trend over time
+* 🔁 Lag features were the most predictive
+* ⚡ EMA captured short-term demand shifts effectively
 
 ---
 
-## ⭐ If you like this project
-Give it a ⭐ on GitHub!
+## 💰 Business Impact
+
+* 📉 Reduced food waste through accurate forecasting
+* 📦 Improved inventory planning
+* 📊 Better decision-making for managers
+* 💡 Transition from reactive → proactive operations
+
+---
+
+## 🔮 Future Improvements
+
+* 📊 Interactive dashboard using Streamlit
+* 🌦️ Integrate external data (weather, events)
+* 🚀 Deploy model as an API
+* 📡 Real-time demand prediction system
+
+---
+
+## ⭐ Support
+
+If you found this project useful, consider giving it a ⭐ on GitHub!
