@@ -1,0 +1,4 @@
+model,MAE,RMSE,Rank
+Linear Regression (Baseline),0.0,0.0,1
+XGBoost,0.53,0.75,2
+Random Forest Regressor,0.54,0.92,3

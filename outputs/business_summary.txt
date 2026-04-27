@@ -1,0 +1,8 @@
+
+Demand Forecasting Report
+
+Model: XGBoost
+MAE: 0.53
+RMSE: 0.75
+MAPE: 2.70%
+Accuracy: 97.30%
