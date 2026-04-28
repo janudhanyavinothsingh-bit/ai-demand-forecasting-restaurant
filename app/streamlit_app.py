@@ -1,5 +1,5 @@
 # =========================
-# AI DEMAND FORECASTING DASHBOARD (ELITE VERSION - FIXED)
+# AI DEMAND FORECASTING DASHBOARD (PRODUCTION VERSION)
 # =========================
 
 import streamlit as st
@@ -38,21 +38,33 @@ def load_model():
 model = load_model()
 
 # -------------------------
-# MAIN
+# MAIN APP
 # -------------------------
 if file:
     df = pd.read_csv(file)
     df.columns = df.columns.str.lower()
 
-    # Auto detect columns
-    date_col = [c for c in df.columns if "date" in c][0]
-    demand_col = [c for c in df.columns if "sales" in c or "demand" in c][0]
+    # -------------------------
+    # SAFE COLUMN DETECTION
+    # -------------------------
+    date_candidates = [c for c in df.columns if "date" in c]
+    if not date_candidates:
+        st.error("❌ No 'date' column found.")
+        st.stop()
+    date_col = date_candidates[0]
 
+    demand_candidates = [c for c in df.columns if "sales" in c or "demand" in c]
+    if not demand_candidates:
+        st.error(f"❌ No 'sales' or 'demand' column found.\n\nColumns: {list(df.columns)}")
+        st.stop()
+    demand_col = demand_candidates[0]
+
+    # Convert & sort
     df[date_col] = pd.to_datetime(df[date_col])
     df = df.sort_values(date_col)
 
     # -------------------------
-    # TABS (IMPORTANT: inside IF)
+    # TABS
     # -------------------------
     tab1, tab2, tab3, tab4 = st.tabs([
         "📊 Overview", "📈 Forecast", "🤖 ML Prediction", "📂 Data"
@@ -91,11 +103,13 @@ if file:
 
         fig = go.Figure()
         fig.add_trace(go.Scatter(
-            x=df[date_col], y=df[demand_col], name="Actual"
+            x=df[date_col], y=df[demand_col],
+            name="Actual"
         ))
         fig.add_trace(go.Scatter(
             x=forecast_df["ds"], y=forecast_df["yhat"],
-            name="Forecast", line=dict(dash="dash")
+            name="Forecast",
+            line=dict(dash="dash")
         ))
 
         st.plotly_chart(fig, use_container_width=True)
@@ -111,29 +125,37 @@ if file:
 
             try:
                 sample = df.tail(30).copy()
+
+                # Only numeric features
                 X = sample.select_dtypes(include=[np.number]).drop(columns=[demand_col], errors='ignore')
 
                 preds = model.predict(X)
-                sample["prediction"] = preds
+                sample["prediction"] = np.maximum(preds, 0)
 
-                fig = px.line(sample, x=date_col, y=[demand_col, "prediction"],
-                              title="Actual vs ML Prediction")
+                fig = px.line(
+                    sample,
+                    x=date_col,
+                    y=[demand_col, "prediction"],
+                    title="Actual vs Predicted"
+                )
                 st.plotly_chart(fig, use_container_width=True)
 
-            except:
-                st.warning("Feature mismatch with trained model")
+            except Exception as e:
+                st.warning(f"⚠️ Feature mismatch: {e}")
 
         else:
-            st.error("No trained model found")
+            st.error("❌ No trained model found in /models folder")
 
     # =========================
     # TAB 4: DATA
     # =========================
     with tab4:
+        st.subheader("Raw Data")
+
         st.dataframe(df.tail(100))
 
         csv = df.to_csv(index=False).encode("utf-8")
-        st.download_button("Download Data", csv, "data.csv")
+        st.download_button("📥 Download Data", csv, "data.csv")
 
     # =========================
     # BUSINESS INSIGHTS
@@ -147,14 +169,14 @@ if file:
     - Demand trend is **{trend}**
     - Peak demand: **{int(df[demand_col].max())} units**
     - Average demand: **{int(df[demand_col].mean())} units**
-    - Forecast supports inventory optimization decisions
+    - Forecast helps optimize inventory and reduce waste
     """)
 
 # -------------------------
-# NO FILE
+# NO FILE UPLOADED
 # -------------------------
 else:
-    st.info("👈 Upload a CSV to begin")
+    st.info("👈 Upload a CSV file to begin")
 
 # =========================
 # END
