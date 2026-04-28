@@ -1,170 +1,147 @@
-🍽️ AI-Powered Restaurant Demand Forecasting & Inventory Optimization
-🌐 Live Demo
+# 🍽️ AI-Powered Restaurant Demand Forecasting & Inventory Optimization
 
-🚀 Interactive Streamlit App:
-👉 https://ai-demand-forecasting-restaurant-voumagqjbw5bydbd9dpxrp.streamlit.app/
+ **Live Application:**  
+https://ai-demand-forecasting-restaurant-voumagqjbw5bydbd9dpxrp.streamlit.app/
 
-📌 Project Overview
+---
 
-This project delivers a production-grade, end-to-end machine learning system for forecasting restaurant demand using time-series modeling, advanced feature engineering, and interactive analytics.
+## 📌 Overview
 
-It transforms raw sales data into actionable business insights, enabling restaurants to make data-driven inventory and operational decisions.
+This project delivers a **production-oriented, end-to-end time-series machine learning system** to forecast daily restaurant demand and optimize inventory planning. It combines advanced feature engineering, robust model training, and an interactive dashboard to convert raw sales data into actionable business insights.
 
-💼 Business Problem
+---
 
-Restaurants often rely on intuition or static planning methods.
+##  Problem Statement
 
-This leads to:
+Restaurants often rely on intuition or static spreadsheets for demand planning, resulting in:
 
-❌ Over-ordering → food waste
-❌ Under-ordering → lost revenue
-❌ Inefficient inventory management
+- Over-ordering → Increased food waste  
+- Under-ordering → Lost revenue  
 
-👉 This project solves it using AI-driven demand forecasting.
+This project addresses the problem using **data-driven demand forecasting models**.
 
-🎯 Objectives
-Predict daily demand using historical sales data
-Capture trend, seasonality, and demand spikes
-Minimize forecasting errors (MAE, RMSE, MAPE)
-Translate predictions into business value
-🧠 End-to-End ML Pipeline
-Data Ingestion → EDA → Feature Engineering → Model Training → Evaluation → Deployment → Dashboard
-📊 Week-wise Breakdown
-🔹 Week 1 — Exploratory Data Analysis (EDA)
-Data validation & cleaning
-Missing value handling
-Daily sales aggregation
-Trend visualization (2013–2017)
-Weekly & monthly seasonality
-Time-series decomposition (trend + seasonal + residual)
-🔹 Week 2 — Feature Engineering
-Calendar features (day, month, quarter, weekend flags)
-Lag features (1, 7, 14, 21, 28 days)
-Rolling statistics (mean, std, min, max)
-Exponential moving averages
-Holiday impact features
-External signal integration (oil prices)
+---
 
-👉 Output: engineered_features.csv
+##  Methodology
 
-🔹 Week 3 — Model Training
-Linear Regression (baseline)
-Random Forest Regressor
-XGBoost Regressor (primary model)
-TimeSeriesSplit validation
-Model comparison using MAE & RMSE
+Data → EDA → Feature Engineering → Model Training → Evaluation → Deployment
 
-👉 Best Model: XGBoost
 
-🔹 Week 4 — Evaluation & Insights
-MAE, RMSE, MAPE evaluation
-Residual analysis
-Feature importance visualization
-Final forecast vs actual comparison
-Business insights generation
-🤖 Model Performance
-📊 Evaluation Metrics
-MAE → average daily prediction error
-RMSE → penalizes large errors
-MAPE → percentage-based accuracy
-🏆 Model Comparison
-Model	MAE ↓	RMSE ↓	MAPE ↓
-Linear Regression	Moderate	Moderate	Moderate
-Random Forest	Better	Better	Better
-XGBoost 🏆	Best	Best	Best (~85–90% accuracy)
-📈 Performance Interpretation
-📉 Average daily error: low relative to demand scale
-📊 Forecast accuracy: ~85–90%
-⚠️ Large errors are rare and controlled
+### 🔹 Exploratory Data Analysis
+- Trend and seasonality detection  
+- Weekly and monthly demand patterns  
+- Data cleaning and validation  
 
-👉 Suitable for real-world inventory planning and demand optimization
+### 🔹 Feature Engineering
+- Lag features (7, 14, 30 days)  
+- Rolling statistics (mean, std)  
+- Calendar features (weekend, month-end)  
+- Exponential moving averages  
+- Trend-based signals  
 
-🔍 Key Insights
-📅 Strong weekly seasonality (weekend spikes)
-🔁 Lag features (especially 7-day) dominate predictions
-📈 Clear upward demand trend
-🌍 External factors influence demand behavior
-🖥️ Advanced Streamlit Dashboard
-🚀 Features
-📂 Upload any dataset (CSV)
-📊 Real-time KPI metrics
-📈 Interactive demand visualization (Plotly)
-🔮 Time-series forecasting (moving average fallback)
-🤖 ML predictions using trained XGBoost model
-🎯 Feature importance analysis
-📥 Download predictions
-📂 Recommended Input
-outputs/engineered_features.csv
+### 🔹 Model Development
+- Linear Regression (baseline)  
+- Random Forest Regressor  
+- **XGBoost (Best Performing Model)**  
+- TimeSeriesSplit cross-validation  
 
-Required columns:
+### 🔹 Evaluation Metrics
+- MAE (Mean Absolute Error)  
+- RMSE (Root Mean Squared Error)  
+- MAPE (Mean Absolute Percentage Error)  
 
-date,sales
-📂 Project Structure
+---
+
+## 🏆 Model Performance
+
+**Best Model: XGBoost**
+
+- MAE  → Low daily prediction error  
+- RMSE → Handles large deviations effectively  
+- MAPE → ~85–90% forecasting accuracy  
+
+📌 The model captures both short-term fluctuations and long-term trends effectively.
+
+---
+
+##  Key Insights
+
+- Strong weekly seasonality with weekend spikes  
+- Lag features (especially 7-day) are highly predictive  
+- Clear upward demand trend over time  
+- External factors moderately influence demand  
+
+---
+
+## 📂 Project Structure
 ai-demand-forecasting-restaurant/
 │
-├── data/
-├── notebooks/
-│   ├── week1_eda.ipynb
-│   ├── week2_feature_engineering.ipynb
-│   ├── week3_model_training.ipynb
-│   ├── week4_evaluation.ipynb
-│
 ├── app/
-│   └── streamlit_app.py
+│ └── streamlit_app.py
+│
+├── notebooks/
+│ ├── week1_eda.ipynb
+│ ├── week2_feature_engineering.ipynb
+│ ├── week3_model_training.ipynb
+│ └── week4_evaluation.ipynb
+│
+├── data/
+│ ├── train.csv
+│ └── test.csv
 │
 ├── outputs/
-│   ├── engineered_features.csv
-│   ├── plots/
+│ ├── engineered_features.csv
+│ └── plots/
 │
-├── models/              # (ignored in Git)
-│
+├── models/ # ignored (trained models)
 ├── requirements.txt
-├── README.md
-└── .gitignore
-⚙️ Tech Stack
-Python 🐍
-Pandas, NumPy
-Scikit-learn
-XGBoost
-Matplotlib, Seaborn
-Plotly
-Streamlit
-📉 Business Impact
-📉 Reduce food waste by ~15–25%
-📦 Optimize inventory decisions
-💰 Improve revenue opportunities
-⚙️ Enable data-driven operations
-💡 Real-World Value
-
-This system can help restaurant managers:
-
-Predict daily demand accurately
-Plan procurement efficiently
-Reduce wastage and stockouts
-Improve profitability
-🚀 Future Enhancements
-🔥 Real-time forecasting API
-🌦 Weather & event data integration
-🧠 Deep learning models (LSTM)
-☁️ Cloud deployment (AWS/GCP)
-📊 BI dashboard integration
+├── main.py
+└── README.md
 
 
-⭐ Support
+---
 
-If you found this project valuable:
+## 🖥️ Streamlit Dashboard
 
-👉 Give it a ⭐ on GitHub
-👉 Share it with others
-👉 Use it in your portfolio
+The deployed application includes:
 
-🔥 Final Note
+- CSV dataset upload  
+- Interactive demand visualization  
+- Time-series forecasting  
+- ML-based predictions (XGBoost)  
+- KPI metrics (MAE, Accuracy)  
+- Forecast download functionality  
 
-This project demonstrates:
+---
 
-End-to-end ML pipeline development
-Strong feature engineering skills
-Real-world business problem solving
-Production-ready dashboard deployment
+##  Run Locally
+git clone https://github.com/janudhanyavinothsingh-bit/ai-demand-forecasting-restaurant.git
+cd ai-demand-forecasting-restaurant
+pip install -r requirements.txt
+streamlit run app/streamlit_app.py
 
-👉 Built not just as a project, but as a portfolio-level AI product
+---
+
+##  Business Impact
+Reduced over-ordering and waste
+Improved inventory planning
+Better demand visibility
+Data-driven decision making
+
+---
+
+##  Key Learnings
+Time-series forecasting techniques
+Feature engineering for demand prediction
+Model comparison and optimization
+Building deployable ML dashboards
+
+---
+
+##  Future Improvements
+Weather & holiday data integration
+Real-time prediction APIs
+Deep learning models (LSTM)
+MLOps pipeline for automation
+
+
