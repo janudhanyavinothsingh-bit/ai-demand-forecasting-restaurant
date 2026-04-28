@@ -74,7 +74,9 @@ Data → EDA → Feature Engineering → Model Training → Evaluation → Deplo
 ---
 
 ## 📂 Project Structure
+
 ai-demand-forecasting-restaurant/
+
 │
 ├── app/
 │ └── streamlit_app.py
