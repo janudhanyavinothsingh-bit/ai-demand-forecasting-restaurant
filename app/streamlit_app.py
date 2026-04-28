@@ -73,34 +73,36 @@ if file:
         fig = px.line(df, x=date_col, y=demand_col, title="Demand Trend")
         st.plotly_chart(fig, use_container_width=True)
     # =========================
-# TAB 2: FORECAST
-# =========================
-with tab2:
-    st.subheader("Time-Series Forecast")
+    # -------------------------
+# FORECASTING (SIMPLE + STABLE)
+# -------------------------
+st.subheader("🔮 Forecast")
 
-    forecast_days = st.slider("Forecast Days", 7, 90, 30)
+forecast_days = st.slider("Forecast Days", 7, 90, 30)
 
-    # Moving Average Forecast
-    df["ma"] = df[demand_col].rolling(5).mean()
+# Moving average forecast
+df["forecast"] = df[demand_col].rolling(window=5).mean()
 
-    future_dates = pd.date_range(df[date_col].max(), periods=forecast_days)
-    avg = df[demand_col].tail(5).mean()
+future_dates = pd.date_range(df[date_col].max(), periods=forecast_days)
 
-    forecast_df = pd.DataFrame({
-        "ds": future_dates,
-        "yhat": [avg] * forecast_days
-    })
+last_avg = df[demand_col].tail(5).mean()
+future_values = [last_avg] * forecast_days
 
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(
-        x=df[date_col], y=df[demand_col], name="Actual"
-    ))
-    fig.add_trace(go.Scatter(
-        x=forecast_df["ds"], y=forecast_df["yhat"],
-        name="Forecast", line=dict(dash="dash")
-    ))
+forecast_df = pd.DataFrame({
+    "ds": future_dates,
+    "yhat": future_values
+})
 
-    st.plotly_chart(fig, use_container_width=True)
+# Plot
+fig3, ax3 = plt.subplots()
+ax3.plot(df[date_col], df[demand_col], label="Actual")
+ax3.plot(forecast_df["ds"], forecast_df["yhat"],
+         linestyle="dashed", label="Forecast")
+
+ax3.legend()
+ax3.grid()
+
+st.pyplot(fig3)
 
     # =========================
     # TAB 3: ML PREDICTION
