@@ -9,13 +9,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 import pickle
 
-# Prophet optional
-try:
-    from prophet import Prophet
-    prophet_available = True
-except:
-    prophet_available = False
-
 st.set_page_config(page_title="AI Demand Forecasting", layout="wide")
 
 # -------------------------
