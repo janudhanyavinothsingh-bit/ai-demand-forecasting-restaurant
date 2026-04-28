@@ -72,47 +72,35 @@ if file:
 
         fig = px.line(df, x=date_col, y=demand_col, title="Demand Trend")
         st.plotly_chart(fig, use_container_width=True)
-
     # =========================
-    # TAB 2: FORECAST
-    # =========================
-    with tab2:
-        st.subheader("Time-Series Forecast")
+# TAB 2: FORECAST
+# =========================
+with tab2:
+    st.subheader("Time-Series Forecast")
 
-        if prophet_available:
-            model_df = df[[date_col, demand_col]].rename(
-                columns={date_col: "ds", demand_col: "y"}
-            )
+    forecast_days = st.slider("Forecast Days", 7, 90, 30)
 
-            m = Prophet()
-            m.fit(model_df)
+    # Moving Average Forecast
+    df["ma"] = df[demand_col].rolling(5).mean()
 
-            future = m.make_future_dataframe(periods=forecast_days)
-            forecast = m.predict(future)
+    future_dates = pd.date_range(df[date_col].max(), periods=forecast_days)
+    avg = df[demand_col].tail(5).mean()
 
-            fig = px.line(forecast, x="ds", y="yhat", title="Forecast")
-            st.plotly_chart(fig, use_container_width=True)
+    forecast_df = pd.DataFrame({
+        "ds": future_dates,
+        "yhat": [avg] * forecast_days
+    })
 
-            forecast_df = forecast[["ds", "yhat"]]
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=df[date_col], y=df[demand_col], name="Actual"
+    ))
+    fig.add_trace(go.Scatter(
+        x=forecast_df["ds"], y=forecast_df["yhat"],
+        name="Forecast", line=dict(dash="dash")
+    ))
 
-        else:
-            st.warning("Prophet not installed → using fallback")
-
-            df["ma"] = df[demand_col].rolling(5).mean()
-
-            future_dates = pd.date_range(df[date_col].max(), periods=forecast_days)
-            avg = df[demand_col].tail(5).mean()
-
-            forecast_df = pd.DataFrame({
-                "ds": future_dates,
-                "yhat": [avg] * forecast_days
-            })
-
-            fig = go.Figure()
-            fig.add_trace(go.Scatter(x=df[date_col], y=df[demand_col], name="Actual"))
-            fig.add_trace(go.Scatter(x=forecast_df["ds"], y=forecast_df["yhat"],
-                                     name="Forecast", line=dict(dash="dash")))
-            st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True)
 
     # =========================
     # TAB 3: ML PREDICTION
